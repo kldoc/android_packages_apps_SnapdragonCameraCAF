@@ -217,6 +217,7 @@ public class CameraActivity extends Activity
     private final Object mStorageSpaceLock = new Object();
     private long mStorageSpaceBytes = Storage.LOW_STORAGE_THRESHOLD_BYTES;
     private boolean mSecureCamera;
+    private boolean mInCameraApp = true;
     private int mLastRawOrientation;
     private MyOrientationEventListener mOrientationListener;
     private Handler mMainHandler;
@@ -2003,6 +2004,10 @@ public class CameraActivity extends Activity
         return mForceReleaseCamera;
     }
 
+    public boolean isInCameraApp() {
+        return mInCameraApp;
+    }
+
     @Override
      public void onModuleSelected(int moduleIndex) {
         mForceReleaseCamera = moduleIndex == ModuleSwitcher.CAPTURE_MODULE_INDEX ||
@@ -2269,6 +2274,10 @@ public class CameraActivity extends Activity
      */
     private void setPreviewControlsVisibility(boolean showControls) {
         mCurrentModule.onPreviewFocusChanged(showControls);
+
+        // controls are only shown when the camera app is active
+        // so we can assume to fetch this information from here
+        mInCameraApp = showControls;
     }
 
     // Accessor methods for getting latency times used in performance testing
