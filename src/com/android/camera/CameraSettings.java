@@ -396,8 +396,8 @@ public class CameraSettings {
             return null;
         }
 
-        Size max = null;
-        int maxSize = -1;
+        Size max = sizes.get(0);
+        int maxSize = max.width * max.height;
 
         for (Size candidate : sizes) {
             int candidateSize = candidate.width * candidate.height;
@@ -910,7 +910,8 @@ public class CameraSettings {
         }
 
         if (pictureSize != null) {
-            formatPictureSizes(mContext, pictureSize, mParameters);
+            formatPictureSizes(pictureSize,
+                    fromLegacySizes(mParameters.getSupportedPictureSizes()), mContext);
             resetIfInvalid(pictureSize);
 
         }
@@ -1119,7 +1120,7 @@ public class CameraSettings {
         resetIfInvalid(pref);
     }
 
-    private static void resetIfInvalid(ListPreference pref) {
+    static void resetIfInvalid(ListPreference pref) {
         // Set the value to the first entry if it is invalid.
         String value = pref.getValue();
         if (pref.findIndexOfValue(value) == NOT_FOUND) {
@@ -1506,15 +1507,13 @@ public class CameraSettings {
         }
 
         boolean contains(double ratio) {
-            return ratio >= min && ratio < max;
+            return (ratio >= min) && (ratio < max);
         }
 
         static AspectRatio of(int width, int height) {
-            double ratio = (double) width / height;
-            for (AspectRatio aspect : values()) {
-                if (aspect.contains(ratio)) {
-                    return aspect;
-                }
+            double ratio = ((double)width)/height;
+            for(AspectRatio aspect : values()) {
+                if(aspect.contains(ratio)) { return aspect; }
             }
             return null;
         }
@@ -1523,13 +1522,13 @@ public class CameraSettings {
     // track a camera picture size along with some derived info
     private static class SizeEntry implements Comparable<SizeEntry> {
         AspectRatio ratio;
-        Size size;
+        android.util.Size size;
         int pixels;
 
-        SizeEntry(Size size) {
-            this.ratio = AspectRatio.of(size.width, size.height);
+        SizeEntry(android.util.Size size) {
+            this.ratio = AspectRatio.of(size.getWidth(), size.getHeight());
             this.size = size;
-            this.pixels = size.width * size.height;
+            this.pixels = size.getWidth() * size.getHeight();
         }
 
         @Override
@@ -1537,23 +1536,22 @@ public class CameraSettings {
             return another.pixels - pixels;
         }
 
-        String resolution() {
-            return size.width + "x" + size.height;
-        }
+        String resolution() { return size.getWidth()+"x"+size.getHeight(); }
 
-        String formatted(Context context) {
-            double pixelCount = pixels / 1000000d; // compute megapixels
+        String formatted(Context ctx) {
+            double pixelCount = pixels/1000000d; // compute megapixels
 
-            if (pixelCount > 1.9 && pixelCount < 2.0) { //conventional rounding
+            if(pixelCount > 1.9 && pixelCount < 2.0) { //conventional rounding
                 pixelCount = 2.0;
             }
 
             pixelCount = adjustForLocale(pixelCount); // some locales group differently
-            if (pixelCount > 0.1) {
+
+            if(pixelCount > 0.1) {
                 String ratioString = ratio.resourceId == 0
-                        ? resolution() : context.getString(ratio.resourceId);
-                return context.getString(R.string.pref_camera_megapixel_format,
-                        ratioString, pixelCount);
+                        ? resolution() : ctx.getString(ratio.resourceId);
+                return ctx.getString(R.string.pref_camera_megapixel_format,
+                                     ratioString, pixelCount);
             } else {
                 // for super tiny stuff, just give the raw resolution
                 return resolution();
@@ -1565,12 +1563,12 @@ public class CameraSettings {
 
         private double adjustForLocale(double megapixels) {
             Locale locale = Locale.getDefault();
-            String language = locale != null ? locale.getLanguage() : null;
-
-            // Chinese and Korean locales prefer to count by ten thousands
+            if(locale == null) { return megapixels; }
+            String language = locale.getLanguage();
+            // chinese and korean locales perfer to count by ten thousands
             // instead of by millions - so we multiply the megapixels by 100
             // (with a little rounding on the way)
-            if (KOREAN.equals(language) || CHINESE.equals(language)) {
+            if(KOREAN.equals(language) || CHINESE.equals(language)) {
                 megapixels = Math.round(megapixels * 10);
                 return megapixels * 10; // wàn
             }
@@ -1578,51 +1576,51 @@ public class CameraSettings {
         }
     }
 
-    private static void formatPictureSizes(Context context,
-            ListPreference pictureSize, Parameters parameters) {
-        List<Size> supported = parameters.getSupportedPictureSizes();
-        if (supported == null || supported.isEmpty()) {
-            return;
+    static List<android.util.Size> fromLegacySizes(List<Size> oldSizes) {
+        final List<android.util.Size> sizes = new ArrayList<>();
+        if (oldSizes == null || oldSizes.size() == 0) {
+            return sizes;
         }
+        for (Size oldSize : oldSizes) {
+            sizes.add(new android.util.Size(oldSize.width, oldSize.height));
+        }
+        return sizes;
+    }
+
+    static void formatPictureSizes(
+            ListPreference pictureSize, List<android.util.Size> supported, Context ctx) {
+        if(supported == null || supported.isEmpty()) { return; }
 
         // convert list of sizes to list of "size entries"
         List<SizeEntry> sizes = new ArrayList<SizeEntry>(supported.size());
-        for (Size candidate : supported) {
-            sizes.add(new SizeEntry(candidate));
-        }
+        for (android.util.Size candidate : supported) { sizes.add(new SizeEntry(candidate)); }
 
         // sort descending by pixel size
         Collections.sort(sizes);
 
         // trim really small sizes but never leave less than six choices
-        int minimum = context.getResources().getInteger(R.integer.minimum_picture_size);
-        while (sizes.size() > 6) {
-            int lastIndex = sizes.size() - 1;
+        int minimum = ctx.getResources().getInteger(R.integer.minimum_picture_size);
+        while(sizes.size() > 6) {
+            int lastIndex = sizes.size()-1;
             SizeEntry last = sizes.get(lastIndex);
-            if (last.pixels < minimum) {
-                sizes.remove(lastIndex);
-            } else {
-                break;
-            }
+            if(last.pixels < minimum) { sizes.remove(lastIndex); }
+            else { break; }
         }
-
         // re-sort into aspect ratio buckets
-        MultiMap<AspectRatio,SizeEntry> buckets = new MultiMap<>();
-        for (SizeEntry size : sizes) {
-            buckets.put(size.ratio, size);
-        }
+        MultiMap<AspectRatio,SizeEntry> buckets = new MultiMap<AspectRatio,SizeEntry>();
+        for(SizeEntry size : sizes) { buckets.put(size.ratio, size); }
 
         // build the final lists - group by aspect ratio, with those
         // buckets having the largest image sizes positioned first
         List<String> entries = new ArrayList<String>(buckets.size());
         List<String> entryValues = new ArrayList<String>(buckets.size());
-        while (!buckets.isEmpty()) {
+        while(!buckets.isEmpty()) {
             // find the bucket with the largest first element
             int maxSize = 0;
             AspectRatio chosenKey = null;
-            for (AspectRatio ratio : buckets.keySet()) {
+            for(AspectRatio ratio : buckets.keySet()) {
                 int size = buckets.get(ratio).get(0).pixels;
-                if (size > maxSize) {
+                if(size > maxSize) {
                     maxSize = size;
                     chosenKey = ratio;
                 }
@@ -1633,13 +1631,13 @@ public class CameraSettings {
             // trim chosen bucket of similarly sized entries, but
             // never leave less that three
             int index = 0;
-            while (bucket.size() > 3 && bucket.size() > index + 1) {
+            while(bucket.size() > 3 && bucket.size() > index+1) {
                 SizeEntry current = bucket.get(index);
-                SizeEntry next = bucket.get(index + 1);
+                SizeEntry next = bucket.get(index+1);
                 // if the two buckets differ in size by less than 30%
                 // remove the smaller one, otherwise advance through the list
-                if ((double) current.pixels / next.pixels < 1.3) {
-                    bucket.remove(index + 1);
+                if(((double)current.pixels)/next.pixels < 1.3) {
+                    bucket.remove(index+1);
                 } else {
                     index++;
                 }
@@ -1648,7 +1646,7 @@ public class CameraSettings {
             // transfer chosen, trimmed bucket to final list
             for (SizeEntry size : bucket) {
                 entryValues.add(size.resolution());
-                entries.add(size.formatted(context));
+                entries.add(size.formatted(ctx));
             }
         }
 
