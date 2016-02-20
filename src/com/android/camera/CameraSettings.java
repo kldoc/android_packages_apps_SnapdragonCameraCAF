@@ -810,7 +810,7 @@ public class CameraSettings {
             filterSimilarPictureSize(group, videoSnapSize);
         }
 
-        if (histogram!= null) {
+        if (histogram != null) {
             filterUnsupportedOptions(group,
                     histogram, mParameters.getSupportedHistogramModes());
         }
@@ -820,12 +820,17 @@ public class CameraSettings {
                     pictureFormat, getSupportedPictureFormatLists());
         }
 
-        if(advancedFeatures != null) {
+        if (advancedFeatures != null) {
             filterUnsupportedOptions(group,
                     advancedFeatures, getSupportedAdvancedFeatures(mParameters));
         }
-        if (longShot!= null && !isLongshotSupported(mParameters)) {
+
+        if (longShot != null && !isLongshotSupported(mParameters)) {
             removePreference(group, longShot.getKey());
+        }
+
+        if (auto_hdr != null && !CameraUtil.isAutoHDRSupported(mParameters)) {
+            removePreference(group, auto_hdr.getKey());
         }
 
         if (videoRotation != null) {
