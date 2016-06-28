@@ -742,6 +742,11 @@ CHAR LIMIT = NONE] -->
     <string name="remaining_photos_format">%d left</string>
     <string name="initial_recording_seconds">00:00</string>
     <string name="makeup_video_size_limit">Makeup works only under VGA size in video recording.</string>
+    <!-- Menu, Video rotation labels [CHAR LIMIT=50] -->
+    <string name="pref_camera_video_rotation_label_0">0</string>
+    <string name="pref_camera_video_rotation_label_90">90</string>
+    <string name="pref_camera_video_rotation_label_180">180</string>
+    <string name="pref_camera_video_rotation_label_270">270</string>
     <!-- common aspect ratios -->
     <string name="pref_camera_aspectratio_43" translatable="false">4:3</string>
     <string name="pref_camera_aspectratio_32" translatable="false">3:2</string>
