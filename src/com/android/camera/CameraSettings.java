@@ -167,7 +167,6 @@ public class CameraSettings {
     public static final String KEY_QC_VIDEO_TNR_MODE = "video-tnr-mode";
     public static final String KEY_SNAPCAM_HDR_MODE = "hdr-mode";
     public static final String KEY_SNAPCAM_HDR_NEED_1X = "hdr-need-1x";
-    public static final String KEY_VIDEO_HSR = "video-hsr";
     public static final String KEY_QC_SEE_MORE_MODE = "see-more";
     public static final String KEY_QC_NOISE_REDUCTION_MODE = "noise-reduction-mode";
     public static final String KEY_QC_INSTANT_CAPTURE = "instant-capture";
@@ -1279,6 +1278,25 @@ public class CameraSettings {
         initialCameraPictureSize(context, parameters);
         writePreferredCameraId(preferences, currentCameraId);
     }
+
+    public static List<String> getSupportedHighFrameRateModes(Parameters params) {
+        ArrayList<String> supported = new ArrayList<String>();
+        List<String> supportedModes = params.getSupportedVideoHighFrameRateModes();
+
+        if (supportedModes == null) {
+            return null;
+        }
+
+        for (String highFrameRateMode : supportedModes) {
+            if (highFrameRateMode.equals("off")) {
+                supported.add(highFrameRateMode);
+            } else {
+                supported.add(highFrameRateMode);
+            }
+        }
+        return supported;
+    }
+
     private static boolean checkSupportedVideoQuality(Parameters parameters,int width, int height){
         List <Size> supported = parameters.getSupportedVideoSizes();
         int flag = 0;
