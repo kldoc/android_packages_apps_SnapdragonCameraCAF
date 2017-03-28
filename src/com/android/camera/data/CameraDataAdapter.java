@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
@@ -45,7 +46,7 @@ public class CameraDataAdapter implements LocalDataAdapter {
     private LocalDataList mImages;
 
     private Listener mListener;
-    private final int mPlaceHolderResourceId;
+    private Drawable mPlaceHolder;
 
     private int mSuggestedWidth = DEFAULT_DECODE_SIZE;
     private int mSuggestedHeight = DEFAULT_DECODE_SIZE;
@@ -53,9 +54,9 @@ public class CameraDataAdapter implements LocalDataAdapter {
     private LocalData mLocalDataToDelete;
     private QueryTask mQueryTask;
 
-    public CameraDataAdapter(int placeholderResource) {
+    public CameraDataAdapter(Drawable placeHolder) {
         mImages = new LocalDataList();
-        mPlaceHolderResourceId = placeholderResource;
+        mPlaceHolder = placeHolder;
     }
 
     @Override
@@ -101,14 +102,14 @@ public class CameraDataAdapter implements LocalDataAdapter {
     }
 
     @Override
-    public View getView(Activity activity, int dataID, boolean inFullScreen) {
+    public View getView(Activity activity, int dataID) {
         if (dataID >= mImages.size() || dataID < 0) {
             return null;
         }
 
         return mImages.get(dataID).getView(
                 activity, mSuggestedWidth, mSuggestedHeight,
-                mPlaceHolderResourceId, this, inFullScreen);
+                mPlaceHolder.getConstantState().newDrawable(), this);
     }
 
     @Override

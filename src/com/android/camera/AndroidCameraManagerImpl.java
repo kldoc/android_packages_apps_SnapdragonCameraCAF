@@ -112,6 +112,9 @@ class AndroidCameraManagerImpl implements CameraManager {
     private CameraHandler mCameraHandler;
     private android.hardware.Camera mCamera;
 
+    // Used to retain a copy of Parameters for setting parameters.
+    private Parameters mParamsToSet;
+
     AndroidCameraManagerImpl() {
         HandlerThread ht = new HandlerThread("Camera Handler Thread");
         ht.start();
@@ -242,6 +245,11 @@ class AndroidCameraManagerImpl implements CameraManager {
 
                         if (mCamera != null) {
                             mParametersIsDirty = true;
+
+                            // Get a instance of Camera.Parameters for later use.
+                            if (mParamsToSet == null) {
+                                mParamsToSet = mCamera.getParameters();
+                            }
                         } else {
                             if (msg.obj != null) {
                                 ((CameraOpenErrorCallback) msg.obj).onDeviceOpenFailure(cameraId);

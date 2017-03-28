@@ -7,7 +7,6 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_STATIC_JAVA_LIBRARIES := \
     android-support-v13        \
     android-support-v4         \
-    glide                      \
     xmp_toolkit
 
 LOCAL_SRC_FILES := \

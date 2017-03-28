@@ -111,15 +111,14 @@ public class FixedLastDataAdapter extends AbstractLocalDataAdapterWrapper {
     }
 
     @Override
-    public View getView(Activity activity, int dataID, boolean inFullScreen) {
+    public View getView(Activity activity, int dataID) {
         int totalNumber = mAdapter.getTotalNumber();
 
         if (dataID < totalNumber) {
-            return mAdapter.getView(activity, dataID, inFullScreen);
+            return mAdapter.getView(activity, dataID);
         } else if (dataID == totalNumber) {
             return mLastData.getView(activity,
-                    mSuggestedWidth, mSuggestedHeight, R.color.photo_placeholder,
-                    null, inFullScreen);
+                    mSuggestedWidth, mSuggestedHeight, null, null);
         }
 
         return null;

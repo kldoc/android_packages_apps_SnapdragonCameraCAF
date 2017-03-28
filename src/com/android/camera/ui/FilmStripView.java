@@ -282,11 +282,10 @@ public class FilmStripView extends ViewGroup implements BottomControlsListener {
          *
          * @param activity The {@link Activity} context to create the view.
          * @param dataID The ID of the image data to be presented.
-         * @param inFullScreen if the filmstrip is in fullscreen
          * @return The view representing the image data. Null if unavailable or
          *         the {@code dataID} is out of range.
          */
-        public View getView(Activity activity, int dataID, boolean inFullScreen);
+        public View getView(Activity activity, int dataID);
 
         /**
          * Returns the {@link ImageData} specified by the ID.
@@ -930,7 +929,7 @@ public class FilmStripView extends ViewGroup implements BottomControlsListener {
             return null;
         }
         data.prepare();
-        View v = mDataAdapter.getView(mActivity, dataID, inFullScreen());
+        View v = mDataAdapter.getView(mActivity, dataID);
         if (v == null) {
             return null;
         }

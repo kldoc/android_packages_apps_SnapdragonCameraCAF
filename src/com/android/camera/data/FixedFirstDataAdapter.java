@@ -108,13 +108,12 @@ public class FixedFirstDataAdapter extends AbstractLocalDataAdapterWrapper
     }
 
     @Override
-    public View getView(Activity activity, int dataID, boolean inFullScreen) {
+    public View getView(Activity activity, int dataID) {
         if (dataID == 0) {
             return mFirstData.getView(
-                    activity, mSuggestedWidth, mSuggestedHeight, R.color.photo_placeholder,
-                    null, inFullScreen);
+                    activity, mSuggestedWidth, mSuggestedHeight, null, null);
         }
-        return mAdapter.getView(activity, dataID - 1, inFullScreen);
+        return mAdapter.getView(activity, dataID - 1);
     }
 
     @Override

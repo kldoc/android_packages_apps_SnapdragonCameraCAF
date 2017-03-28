@@ -49,6 +49,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -113,11 +114,7 @@ import com.android.camera.util.GcamHelper;
 import com.android.camera.util.IntentHelper;
 import com.android.camera.util.PhotoSphereHelper.PanoramaViewHelper;
 import com.android.camera.util.UsageStatistics;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
-import com.bumptech.glide.MemoryCategory;
-import com.bumptech.glide.load.DecodeFormat;
-import com.bumptech.glide.load.engine.executor.FifoPriorityThreadPoolExecutor;
+import org.codeaurora.snapcam.R;
 
 import org.codeaurora.snapcam.R;
 
@@ -1549,7 +1546,8 @@ public class CameraActivity extends Activity
                 FilmStripView.ImageData.SIZE_FULL);
         // Put a CameraPreviewData at the first position.
         mWrappedDataAdapter = new FixedFirstDataAdapter(
-                new CameraDataAdapter(R.color.photo_placeholder),
+                new CameraDataAdapter(new ColorDrawable(
+                        getResources().getColor(R.color.photo_placeholder))),
                 mCameraPreviewData);
 
         mFilmStripView.setViewGap(
@@ -1619,24 +1617,13 @@ public class CameraActivity extends Activity
         display.getSize(size);
         int width = size.x;
         int height = size.y;
+
         int lower = Math.min(width, height);
+
         int offset = lower * 7 / 100;
         SETTING_LIST_WIDTH_1 = lower / 2 + offset;
         SETTING_LIST_WIDTH_2 = lower / 2 - offset;
         registerSDcardMountedReceiver();
-
-        if (!Glide.isSetup()) {
-            Glide.setup(new GlideBuilder(mContext)
-                    .setDecodeFormat(DecodeFormat.ALWAYS_ARGB_8888)
-                    .setResizeService(new FifoPriorityThreadPoolExecutor(2)));
-
-            Glide glide = Glide.get(mContext);
-
-            // As a camera we will use a large amount of memory
-            // for displaying images.
-            glide.setMemoryCategory(MemoryCategory.HIGH);
-        }
-
     }
 
     private void setRotationAnimation() {
