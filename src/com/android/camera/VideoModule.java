@@ -561,9 +561,6 @@ public class VideoModule extends BaseModule<VideoUI> implements
 
         mUI = new VideoUI(activity, this, (ViewGroup) root);
 
-        // Power shutter
-        mActivity.initPowerShutter(mPreferences);
-
         // Max brightness
         mActivity.initMaxBrightness(mPreferences);
 
@@ -1562,7 +1559,7 @@ public class VideoModule extends BaseModule<VideoUI> implements
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
             case KeyEvent.KEYCODE_MEDIA_NEXT:
-                if (event.getRepeatCount() == 0 && !CameraActivity.mPowerShutter &&
+                if (event.getRepeatCount() == 0 &&
                         !CameraUtil.hasCameraKey()) {
                     mUI.clickShutter();
                 } else {
@@ -1571,7 +1568,7 @@ public class VideoModule extends BaseModule<VideoUI> implements
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
             case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
-                if (event.getRepeatCount() == 0 && !CameraActivity.mPowerShutter &&
+                if (event.getRepeatCount() == 0 &&
                         !CameraUtil.hasCameraKey()) {
                     mUI.clickShutter();
                 } else {
@@ -1589,12 +1586,6 @@ public class VideoModule extends BaseModule<VideoUI> implements
                     mUI.clickShutter();
                 }
                 return true;
-            case KeyEvent.KEYCODE_POWER:
-                if (event.getRepeatCount() == 0 && CameraActivity.mPowerShutter &&
-                        !CameraUtil.hasCameraKey()) {
-                    mUI.clickShutter();
-                }
-                return true;
             case KeyEvent.KEYCODE_MENU:
                 if (mMediaRecorderRecording) {
                     return true;
@@ -1609,13 +1600,13 @@ public class VideoModule extends BaseModule<VideoUI> implements
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
             case KeyEvent.KEYCODE_MEDIA_NEXT:
-                if (!CameraActivity.mPowerShutter && !CameraUtil.hasCameraKey()) {
+                if (!CameraUtil.hasCameraKey()) {
                     mUI.pressShutter(false);
                 }
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
             case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
-                if (!CameraActivity.mPowerShutter && !CameraUtil.hasCameraKey()) {
+                if (!CameraUtil.hasCameraKey()) {
                     mUI.pressShutter(false);
                 }
                 return true;
@@ -1624,7 +1615,7 @@ public class VideoModule extends BaseModule<VideoUI> implements
                 mUI.pressShutter(false);
                 return true;
             case KeyEvent.KEYCODE_POWER:
-                if (CameraActivity.mPowerShutter && !CameraUtil.hasCameraKey()) {
+                if (!CameraUtil.hasCameraKey()) {
                     mUI.pressShutter(false);
                 }
                 return true;
@@ -2993,7 +2984,6 @@ public class VideoModule extends BaseModule<VideoUI> implements
             Storage.setSaveSDCard(
                 mPreferences.getString(CameraSettings.KEY_CAMERA_SAVEPATH, "0").equals("1"));
             mActivity.updateStorageSpaceAndHint();
-            mActivity.initPowerShutter(mPreferences);
             mActivity.initMaxBrightness(mPreferences);
         }
     }

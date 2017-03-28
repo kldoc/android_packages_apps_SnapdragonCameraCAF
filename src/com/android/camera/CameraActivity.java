@@ -219,8 +219,6 @@ public class CameraActivity extends Activity
     private long mStorageSpaceBytes = Storage.LOW_STORAGE_THRESHOLD_BYTES;
     private boolean mSecureCamera;
     private boolean mInCameraApp = true;
-    // Keep track of powershutter state
-    public static boolean mPowerShutter = false;
     // Keep track of max brightness state
     public static boolean mMaxBrightness = false;
     private int mLastRawOrientation;
@@ -1946,21 +1944,6 @@ public class CameraActivity extends Activity
         } else if (mStorageHint != null) {
             mStorageHint.cancel();
             mStorageHint = null;
-        }
-    }
-
-    protected void initPowerShutter(ComboPreferences prefs) {
-        String val = prefs.getString(CameraSettings.KEY_POWER_SHUTTER,
-                getResources().getString(R.string.pref_camera_power_shutter_default));
-        if (!CameraUtil.hasCameraKey()) {
-            mPowerShutter = val.equals(CameraSettings.VALUE_ON);
-        }
-        if (mPowerShutter && mInCameraApp) {
-            getWindow().addPrivateFlags(
-                    WindowManager.LayoutParams.PRIVATE_FLAG_PREVENT_POWER_KEY);
-        } else {
-            getWindow().clearPrivateFlags(
-                    WindowManager.LayoutParams.PRIVATE_FLAG_PREVENT_POWER_KEY);
         }
     }
 
