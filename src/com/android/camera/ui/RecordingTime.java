@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import com.android.camera.PauseButton;
 
-import org.codeaurora.snapcam.R;
+import org.omnirom.snapcam.R;
 
 public class RecordingTime extends RotateLayout implements PauseButton.OnPauseButtonListener {
 

@@ -55,7 +55,7 @@ import com.android.camera.ui.DotsViewItem;
 import com.android.camera.ui.RotateTextToast;
 import com.android.camera.util.CameraUtil;
 
-import org.codeaurora.snapcam.R;
+import org.omnirom.snapcam.R;
 
 import java.io.File;
 import java.io.FileInputStream;

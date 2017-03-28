@@ -49,7 +49,7 @@ import java.lang.reflect.Method;
 
 import com.android.camera.app.CameraApp;
 
-import org.codeaurora.snapcam.R;
+import org.omnirom.snapcam.R;
 
 /**
  * A class to implement {@link CameraManager} of the Android camera framework.

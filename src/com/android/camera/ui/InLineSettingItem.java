@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.camera.ListPreference;
-import org.codeaurora.snapcam.R;
+import org.omnirom.snapcam.R;
 
 /**
  * A one-line camera setting could be one of three types: knob, switch or restore

@@ -29,7 +29,7 @@ import android.view.View;
 
 import com.android.camera.CameraManager;
 
-import org.codeaurora.snapcam.R;
+import org.omnirom.snapcam.R;
 
 public class HistogramView extends View {
     private static final String TAG = "CAM_" + HistogramView.class.getSimpleName();

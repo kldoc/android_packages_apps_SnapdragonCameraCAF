@@ -40,7 +40,7 @@ import com.android.camera.util.CameraUtil;
 import com.android.camera.util.GcamHelper;
 import com.android.camera.util.MultiMap;
 
-import org.codeaurora.snapcam.R;
+import org.omnirom.snapcam.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -32,7 +32,7 @@ import com.android.camera.ui.motion.DynamicAnimator;
 import com.android.camera.ui.motion.Invalidator;
 import com.android.camera.ui.motion.LinearScale;
 
-import org.codeaurora.snapcam.R;
+import org.omnirom.snapcam.R;
 
 /**
  * Custom view for running the focus ring animations.

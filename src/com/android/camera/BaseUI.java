@@ -30,7 +30,7 @@ import com.android.camera.ui.ModuleSwitcher;
 import com.android.camera.ui.RecordingTime;
 import com.android.camera.util.CameraUtil;
 
-import org.codeaurora.snapcam.R;
+import org.omnirom.snapcam.R;
 
 import java.util.ArrayList;
 import java.util.List;

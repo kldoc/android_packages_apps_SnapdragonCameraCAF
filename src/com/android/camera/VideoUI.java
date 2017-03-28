@@ -57,7 +57,7 @@ import com.android.camera.ui.ZoomRenderer;
 import com.android.camera.ui.focus.FocusRing;
 import com.android.camera.util.CameraUtil;
 
-import org.codeaurora.snapcam.R;
+import org.omnirom.snapcam.R;
 
 import java.util.List;
 
