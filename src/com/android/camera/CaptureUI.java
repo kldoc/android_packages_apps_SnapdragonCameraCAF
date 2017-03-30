@@ -25,7 +25,9 @@ import android.content.res.Resources;
 import android.graphics.ImageFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.hardware.Camera.Face;
 import android.media.ImageReader;
 import android.renderscript.Allocation;
@@ -1197,9 +1199,10 @@ public class CaptureUI implements FocusOverlayManager.FocusUI,
     }
 
     public void doShutterAnimation() {
-        AnimationDrawable frameAnimation = (AnimationDrawable) mShutterButton.getDrawable();
-        frameAnimation.stop();
-        frameAnimation.start();
+        AnimatedVectorDrawable shutterVector = (AnimatedVectorDrawable) mShutterButton.getDrawable();
+        if (shutterVector != null && shutterVector instanceof Animatable) {
+            ((AnimatedVectorDrawable) shutterVector).start();
+        }
     }
 
     public void showUI() {
