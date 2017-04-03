@@ -1181,7 +1181,7 @@ public class CaptureModule implements CameraModule, PhotoController,
                                         mActivity.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                mUI.doShutterAnimation();
+                                                mUI.startCameraShutterAnimation();
                                             }
                                         });
                                     }
@@ -1196,7 +1196,7 @@ public class CaptureModule implements CameraModule, PhotoController,
                                         mActivity.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                mUI.doShutterAnimation();
+                                                mUI.startCameraShutterAnimation();
                                             }
                                         });
                                     }
