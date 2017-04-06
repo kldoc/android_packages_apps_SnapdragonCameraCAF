@@ -53,30 +53,41 @@
         android:scaleType="center"
         android:contentDescription="@string/accessibility_mode_picker" />
 
-    <com.android.camera.ShutterButton
-        android:id="@+id/shutter_button"
-        android:layout_width="@dimen/shutter_size"
-        android:layout_height="@dimen/shutter_size"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="@dimen/shutter_offset"
-        android:clickable="true"
-        android:contentDescription="@string/accessibility_shutter_button"
-        android:focusable="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/btn_new_shutter" />
+    <LinearLayout
+        android:id="@+id/shutter_group"
+        android:layout_width="96dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/shutter_group_offset"
+        android:orientation="horizontal">
 
-    <com.android.camera.ShutterButton
-        android:id="@+id/video_button"
-        android:visibility="invisible"
-        android:layout_width="@dimen/shutter_size"
-        android:layout_height="@dimen/shutter_size"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="@dimen/shutter_offset"
-        android:clickable="true"
-        android:contentDescription="@string/accessibility_shutter_button"
-        android:focusable="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/shutter_vector_video" />
+        <com.android.camera.ShutterButton
+            android:id="@+id/shutter_button"
+            android:layout_width="@dimen/shutter_size"
+            android:layout_height="@dimen/shutter_size"
+            android:layout_gravity="center|left"
+            android:layout_margin="18dp"
+            android:clickable="true"
+            android:contentDescription="@string/accessibility_shutter_button"
+            android:focusable="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/btn_new_shutter" />
+
+        <com.android.camera.ShutterButton
+            android:id="@+id/video_button"
+            android:visibility="invisible"
+            android:layout_width="@dimen/shutter_size"
+            android:layout_height="@dimen/shutter_size"
+            android:layout_margin="18dp"
+            android:layout_marginBottom="-18dp"
+            android:layout_gravity="center|right"
+            android:clickable="true"
+            android:contentDescription="@string/accessibility_shutter_button"
+            android:focusable="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/shutter_vector_video" />
+
+    </LinearLayout>
 
     <com.android.camera.ui.RotateImageView
         android:id="@+id/preview_thumb"

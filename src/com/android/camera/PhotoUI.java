@@ -101,6 +101,7 @@ public class PhotoUI implements PieListener,
 
     private PopupWindow mPopup;
     private ShutterButton mShutterButton;
+    private ShutterButton mVideoButton;
     private CountDownView mCountDownView;
     private SelfieFlashView mSelfieView;
 
@@ -272,6 +273,8 @@ public class PhotoUI implements PieListener,
         mRenderOverlay = (RenderOverlay) mRootView.findViewById(R.id.render_overlay);
         mFlashOverlay = mRootView.findViewById(R.id.flash_overlay);
         mShutterButton = (ShutterButton) mRootView.findViewById(R.id.shutter_button);
+        mVideoButton = (ShutterButton) mRootView.findViewById(R.id.video_button);
+        mVideoButton.setVisibility(View.GONE);
         mSwitcher = (ModuleSwitcher) mRootView.findViewById(R.id.camera_switcher);
         mSwitcher.setCurrentIndex(ModuleSwitcher.PHOTO_MODULE_INDEX);
         mSwitcher.setSwitchListener(mActivity);

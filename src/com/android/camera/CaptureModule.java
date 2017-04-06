@@ -2578,6 +2578,7 @@ public class CaptureModule implements CameraModule, PhotoController,
         mMediaRecorderPausing = true;
         mRecordingTotalTime += SystemClock.uptimeMillis() - mRecordingStartTime;
         mMediaRecorder.pause();
+        mUI.stopVideoShutterAnimation();
     }
 
     private void resumeVideoRecording() {
@@ -2586,6 +2587,7 @@ public class CaptureModule implements CameraModule, PhotoController,
         mRecordingStartTime = SystemClock.uptimeMillis();
         updateRecordingTime();
         mMediaRecorder.start();
+        mUI.startVideoShutterAnimation();
     }
 
     public void onButtonPause() {

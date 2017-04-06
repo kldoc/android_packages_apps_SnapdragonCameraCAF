@@ -53,6 +53,7 @@ public class CameraControls extends RotatableLayout {
     private View mBackgroundView;
     private View mShutter;
     private View mVideoShutter;
+    private View mShutterGroup;
     private View mSwitcher;
     private View mMenu;
     private View mMute;
@@ -239,6 +240,7 @@ public class CameraControls extends RotatableLayout {
         }
         mSceneModeSwitcher.setEnabled(enable);
         mPreview.setEnabled(enable);
+        mShutterGroup.setEnabled(enable);
 
     }
 
@@ -281,6 +283,7 @@ public class CameraControls extends RotatableLayout {
     public void onFinishInflate() {
         super.onFinishInflate();
         mBackgroundView = findViewById(R.id.blocker);
+        mShutterGroup = (LinearLayout) findViewById(R.id.shutter_group);
         mSwitcher = findViewById(R.id.camera_switcher);
         mShutter = findViewById(R.id.shutter_button);
         mVideoShutter = findViewById(R.id.video_button);
@@ -317,7 +320,7 @@ public class CameraControls extends RotatableLayout {
             v.layout(l, t, r, b);
         }
         Rect shutter = new Rect();
-        center(mShutter, l, t, r, b, orientation, rotation, shutter, SHUTTER_INDEX);
+        center(mShutterGroup, l, t, r, b, orientation, rotation, shutter, SHUTTER_INDEX);
         mSize = (int) (Math.max(shutter.right - shutter.left, shutter.bottom - shutter.top) * 1.2f);
         center(mBackgroundView, l, t, r, b, orientation, rotation, new Rect(), -1);
         mBackgroundView.setVisibility(View.GONE);
@@ -369,7 +372,6 @@ public class CameraControls extends RotatableLayout {
     private void setLocation(int w, int h) {
         int rotation = getUnifiedRotation();
         toIndex(mSwitcher, w, h, rotation, 4, 6, SWITCHER_INDEX);
-        toIndex(mVideoShutter, w, h, rotation, 3, 6, VIDEO_SHUTTER_INDEX);
         toIndex(mMenu, w, h, rotation, 4, 0, MENU_INDEX);
         toIndex(mMute, w, h, rotation, 3, 0, MUTE_INDEX);
         toIndex(mIndicators, w, h, rotation, 0, 6, INDICATOR_INDEX);
@@ -483,8 +485,7 @@ public class CameraControls extends RotatableLayout {
         mMenu.setX(mLocX[idx1][MENU_INDEX] + x);
         mMute.setX(mLocX[idx1][MUTE_INDEX] + x);
         mSwitcher.setX(mLocX[idx1][SWITCHER_INDEX] - x);
-        mShutter.setX(mLocX[idx1][SHUTTER_INDEX] - x);
-        mVideoShutter.setX(mLocX[idx1][VIDEO_SHUTTER_INDEX] - x);
+        mShutterGroup.setX(mLocX[idx1][SHUTTER_INDEX] - x);
         mIndicators.setX(mLocX[idx1][INDICATOR_INDEX] - x);
         mPreview.setX(mLocX[idx1][PREVIEW_INDEX] - x);
 
@@ -499,8 +500,7 @@ public class CameraControls extends RotatableLayout {
         mMenu.setY(mLocY[idx1][MENU_INDEX] + y);
         mMute.setY(mLocY[idx1][MUTE_INDEX] + y);
         mSwitcher.setY(mLocY[idx1][SWITCHER_INDEX] - y);
-        mShutter.setY(mLocY[idx1][SHUTTER_INDEX] - y);
-        mVideoShutter.setY(mLocY[idx1][VIDEO_SHUTTER_INDEX] - y);
+        mShutterGroup.setY(mLocY[idx1][SHUTTER_INDEX] - y);
         mIndicators.setY(mLocY[idx1][INDICATOR_INDEX] - y);
         mPreview.setY(mLocY[idx1][PREVIEW_INDEX] - y);
     }

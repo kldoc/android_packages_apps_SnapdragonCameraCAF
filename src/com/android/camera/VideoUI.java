@@ -82,6 +82,7 @@ public class VideoUI implements PieRenderer.PieListener,
     private View mReviewDoneButton;
     private View mReviewPlayButton;
     private ShutterButton mShutterButton;
+    private ShutterButton mVideoButton;
     private PauseButton mPauseButton;
     private ModuleSwitcher mSwitcher;
     private TextView mRecordingTimeView;
@@ -247,6 +248,8 @@ public class VideoUI implements PieRenderer.PieListener,
 
         mFlashOverlay = mRootView.findViewById(R.id.flash_overlay);
         mShutterButton = (ShutterButton) mRootView.findViewById(R.id.shutter_button);
+        mVideoButton = (ShutterButton) mRootView.findViewById(R.id.video_button);
+        mVideoButton.setVisibility(View.GONE);
         mSwitcher = (ModuleSwitcher) mRootView.findViewById(R.id.camera_switcher);
         mSwitcher.setCurrentIndex(ModuleSwitcher.VIDEO_MODULE_INDEX);
         mSwitcher.setSwitchListener(mActivity);
