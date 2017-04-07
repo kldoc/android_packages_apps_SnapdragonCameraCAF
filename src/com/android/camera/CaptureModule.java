@@ -1944,11 +1944,41 @@ public class CaptureModule implements CameraModule, PhotoController,
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // Do not handle any key if the activity is
+        // not in active camera/video mode
+        if (!mActivity.isInCameraApp()) {
+            return false;
+        }
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                if (mFirstTimeInitialized) {
+                    onShutterButtonFocus(true);
+                }
+                return true;
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (mFirstTimeInitialized) {
+                    onShutterButtonFocus(true);
+                }
+                return true;
+        }
         return false;
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                if (mFirstTimeInitialized) {
+                    onShutterButtonClick();
+                    return true;
+                }
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (mFirstTimeInitialized) {
+                    onShutterButtonClick();
+                    return true;
+                }
+                return false;
+        }
         return false;
     }
 

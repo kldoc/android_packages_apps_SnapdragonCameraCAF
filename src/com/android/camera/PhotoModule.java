@@ -2796,6 +2796,11 @@ public class PhotoModule
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
+                if (/*mActivity.isInCameraApp() && */ mFirstTimeInitialized) {
+                    onShutterButtonClick();
+                    return true;
+                }
+                return false;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
                 if (/*mActivity.isInCameraApp() && */ mFirstTimeInitialized) {
                     onShutterButtonClick();
