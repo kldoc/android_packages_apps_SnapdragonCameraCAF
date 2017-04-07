@@ -75,6 +75,7 @@ import com.android.camera.ui.TrackingFocusRenderer;
 import com.android.camera.ui.ZoomRenderer;
 import com.android.camera.util.CameraUtil;
 
+import com.android.camera.FlashModeButton;
 import org.omnirom.snap.R;
 
 import java.util.ArrayList;
@@ -227,6 +228,7 @@ public class CaptureUI implements FocusOverlayManager.FocusUI,
     private int mSceneAndFilterMenuSize;
 
     private View mFilterModeSwitcher;
+    private View mFlashModeSwitcher;
     private View mSceneModeSwitcher;
     private View mFrontBackSwitcher;
     private TextView mRecordingTimeView;
@@ -293,9 +295,11 @@ public class CaptureUI implements FocusOverlayManager.FocusUI,
         mShutterButton = (ShutterButton) mRootView.findViewById(R.id.shutter_button);
         mVideoButton = (ShutterButton) mRootView.findViewById(R.id.video_button);
         mFilterModeSwitcher = mRootView.findViewById(R.id.filter_mode_switcher);
+        mFlashModeSwitcher = mRootView.findViewById(R.id.flash_mode_switcher);
         mSceneModeSwitcher = mRootView.findViewById(R.id.scene_mode_switcher);
         mFrontBackSwitcher = mRootView.findViewById(R.id.front_back_switcher);
         initFilterModeButton();
+        initFlashModeButton();
         initSceneModeButton();
         initSwitchCamera();
 
@@ -505,6 +509,17 @@ public class CaptureUI implements FocusOverlayManager.FocusUI,
         });
     }
 
+    public void initFlashModeButton() {
+        ((FlashModeButton)mFlashModeSwitcher).setCameraApi(null, mSettingsManager);
+        mFlashModeSwitcher.setVisibility(View.VISIBLE);
+        mFlashModeSwitcher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((FlashModeButton)mFlashModeSwitcher).performClick(); 
+            }
+        });
+    }
+
     public void initSceneModeButton() {
         mSceneModeSwitcher.setVisibility(View.INVISIBLE);
         String value = mSettingsManager.getValue(SettingsManager.KEY_SCENE_MODE);
@@ -573,6 +588,7 @@ public class CaptureUI implements FocusOverlayManager.FocusUI,
         mCameraControls.setWillNotDraw(true);
         mFrontBackSwitcher.setVisibility(View.INVISIBLE);
         mFilterModeSwitcher.setVisibility(View.INVISIBLE);
+        mFlashModeSwitcher.setVisibility(View.INVISIBLE);
         mSceneModeSwitcher.setVisibility(View.INVISIBLE);
     }
 
@@ -580,6 +596,7 @@ public class CaptureUI implements FocusOverlayManager.FocusUI,
         mCameraControls.setWillNotDraw(false);
         mFrontBackSwitcher.setVisibility(View.VISIBLE);
         mFilterModeSwitcher.setVisibility(View.VISIBLE);
+        mFlashModeSwitcher.setVisibility(View.VISIBLE);
         mSceneModeSwitcher.setVisibility(View.VISIBLE);
     }
 
@@ -1177,6 +1194,7 @@ public class CaptureUI implements FocusOverlayManager.FocusUI,
         if (mFrontBackSwitcher != null) mFrontBackSwitcher.setVisibility(status);
         if (mSceneModeSwitcher != null) mSceneModeSwitcher.setVisibility(status);
         if (mFilterModeSwitcher != null) mFilterModeSwitcher.setVisibility(status);
+        if (mFlashModeSwitcher != null) mFlashModeSwitcher.setVisibility(status);
         if (mSwitcher != null) mSwitcher.setVisibility(status);
     }
 

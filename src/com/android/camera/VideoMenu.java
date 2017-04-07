@@ -80,6 +80,7 @@ public class VideoMenu extends MenuController
     private int mSceneStatus;
     private View mFrontBackSwitcher;
     private View mFilterModeSwitcher;
+    private View mFlashModeSwitcher;
     private int mPopupStatus;
     private int mPreviewMenuStatus;
     private CameraActivity mActivity;
@@ -98,7 +99,8 @@ public class VideoMenu extends MenuController
         mUI = ui;
         mActivity = activity;
         mFrontBackSwitcher = ui.getRootView().findViewById(R.id.front_back_switcher);
-        mFilterModeSwitcher = ui.getRootView().findViewById(R.id.filter_mode_switcher);
+        //mFilterModeSwitcher = ui.getRootView().findViewById(R.id.filter_mode_switcher);
+        mFlashModeSwitcher = ui.getRootView().findViewById(R.id.flash_mode_switcher);
     }
 
     public void initialize(PreferenceGroup group) {
@@ -107,7 +109,7 @@ public class VideoMenu extends MenuController
         mListSubMenu = null;
         mPopupStatus = POPUP_NONE;
         mPreviewMenuStatus = POPUP_NONE;
-        initFilterModeButton(mFilterModeSwitcher);
+        //initFilterModeButton(mFilterModeSwitcher);
         // settings popup
         mOtherKeys1 = new String[] {
                 CameraSettings.KEY_VIDEOCAMERA_FLASH_MODE,
@@ -813,7 +815,8 @@ public class VideoMenu extends MenuController
 
     public void hideUI() {
         mFrontBackSwitcher.setVisibility(View.INVISIBLE);
-        mFilterModeSwitcher.setVisibility(View.INVISIBLE);
+        //mFilterModeSwitcher.setVisibility(View.INVISIBLE);
+        mFlashModeSwitcher.setVisibility(View.INVISIBLE);
     }
 
     public void showUI() {
@@ -821,7 +824,8 @@ public class VideoMenu extends MenuController
         final IconListPreference pref = (IconListPreference) mPreferenceGroup
                 .findPreference(CameraSettings.KEY_FILTER_MODE);
         if (pref != null) {
-            mFilterModeSwitcher.setVisibility(View.VISIBLE);
+            //mFilterModeSwitcher.setVisibility(View.VISIBLE);
+            mFlashModeSwitcher.setVisibility(View.VISIBLE);
         }
     }
 

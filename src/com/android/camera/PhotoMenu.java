@@ -49,6 +49,7 @@ import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 
 import com.android.camera.CameraPreference.OnPreferenceChangedListener;
+import com.android.camera.FlashModeButton;
 import com.android.camera.TsMakeupManager.MakeupLevelListener;
 import com.android.camera.app.CameraApp;
 import com.android.camera.ui.CameraControls;
@@ -99,6 +100,7 @@ public class PhotoMenu extends MenuController
     private View mFrontBackSwitcher;
     private View mSceneModeSwitcher;
     private View mFilterModeSwitcher;
+    private View mFlashModeSwitcher;
     private View mCameraSwitcher;
     private View mSettingMenu;
     private View mPreviewThumbnail;
@@ -130,7 +132,8 @@ public class PhotoMenu extends MenuController
         mHdrSwitcher = ui.getRootView().findViewById(R.id.hdr_switcher);
         mTsMakeupSwitcher = ui.getRootView().findViewById(R.id.ts_makeup_switcher);
         mSceneModeSwitcher = ui.getRootView().findViewById(R.id.scene_mode_switcher);
-        mFilterModeSwitcher = ui.getRootView().findViewById(R.id.filter_mode_switcher);
+        //mFilterModeSwitcher = ui.getRootView().findViewById(R.id.filter_mode_switcher);
+        mFlashModeSwitcher = ui.getRootView().findViewById(R.id.flash_mode_switcher);
         mMakeupListener = makeupListener;
         mSettingMenu = ui.getRootView().findViewById(R.id.menu);
         mCameraSwitcher = ui.getRootView().findViewById(R.id.camera_switcher);
@@ -159,7 +162,8 @@ public class PhotoMenu extends MenuController
         }
 
         initSceneModeButton(mSceneModeSwitcher);
-        initFilterModeButton(mFilterModeSwitcher);
+        //initFilterModeButton(mFilterModeSwitcher);
+        initFlashModeButton();
         if(TsMakeupManager.HAS_TS_MAKEUP) {
             initMakeupModeButton(mTsMakeupSwitcher);
         } else {
@@ -944,6 +948,17 @@ public class PhotoMenu extends MenuController
         }
     }
 
+    public void initFlashModeButton() {
+        ((FlashModeButton)mFlashModeSwitcher).setCameraApi(mUI, null);
+        mFlashModeSwitcher.setVisibility(View.VISIBLE);
+        mFlashModeSwitcher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((FlashModeButton)mFlashModeSwitcher).performClick();
+            }
+        });
+    }
+
     public void initSceneModeButton(View button) {
         button.setVisibility(View.INVISIBLE);
         final IconListPreference pref = (IconListPreference) mPreferenceGroup
@@ -1518,12 +1533,14 @@ public class PhotoMenu extends MenuController
     public void hideTopMenu(boolean hide) {
         if (hide) {
             mSceneModeSwitcher.setVisibility(View.GONE);
-            mFilterModeSwitcher.setVisibility(View.GONE);
+            //mFilterModeSwitcher.setVisibility(View.GONE);
+            mFlashModeSwitcher.setVisibility(View.GONE);
             mFrontBackSwitcher.setVisibility(View.GONE);
             mTsMakeupSwitcher.setVisibility(View.GONE);
         } else {
             mSceneModeSwitcher.setVisibility(View.VISIBLE);
-            mFilterModeSwitcher.setVisibility(View.VISIBLE);
+            //mFilterModeSwitcher.setVisibility(View.VISIBLE);
+            mFlashModeSwitcher.setVisibility(View.VISIBLE);
             mFrontBackSwitcher.setVisibility(View.VISIBLE);
             mTsMakeupSwitcher.setVisibility(View.VISIBLE);
         }
@@ -1539,7 +1556,8 @@ public class PhotoMenu extends MenuController
             mHdrSwitcher.setVisibility(status);
         }
         mSceneModeSwitcher.setVisibility(status);
-        mFilterModeSwitcher.setVisibility(status);
+        //mFilterModeSwitcher.setVisibility(status);
+        mFlashModeSwitcher.setVisibility(status);
         if(status == View.INVISIBLE) {
             if(mCameraSwitcher.getVisibility() == View.VISIBLE) {
                 mWasVisibleSet.add(mCameraSwitcher);
